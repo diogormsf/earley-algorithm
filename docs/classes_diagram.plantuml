@@ -1,0 +1,38 @@
+@startuml classes
+
+class Earley
+class Grammar
+class Chart
+class State
+class Rule
+class Constituent 
+
+Grammar "1" *-- "many" Rule : contains
+Grammar "1" *-- "many" Constituent : contains
+Rule "many" -- "many" Constituent : composed by
+Chart "1" *-- "many" State : contains
+State "many" --* "many" Rule : has
+Earley "1" *--* "1" Grammar
+Earley "1" *--* "many" Chart
+
+Grammar : Rule[] rules
+Grammar : Constituent[] lexical_rules
+
+Earley : Grammar grammar
+Earley : Charts[] charts
+
+Chart : State[] states
+
+State : Rule rule
+State : Tuple<int,int> position
+State : State[] backpointer
+
+Rule : Constituent left_hs
+Rule : Constituent[] right_hs
+Rule : int current_state
+
+Constituent : str representation
+Constituent : bool is_terminal
+Constituent : str[] words
+
+@enduml
