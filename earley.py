@@ -23,7 +23,7 @@ class Earley:
     def parse(self):
         self.create_initial_state()
 
-        for index in range(0, len(self.charts)):
+        for index in range(0, len(self.charts) - 1):
             for state in self.charts[index].states:
                 if not state.is_complete():
                     if not state.next_constituent().is_terminal:
@@ -32,6 +32,8 @@ class Earley:
                         self.scanner(state, index)
                 else:
                     self.completer(state, index)
+
+        print("abc")
 
     def create_initial_state(self):
         initial_rule = Rule(Constituent("ROOT", True), [Constituent("S", False)])
@@ -75,5 +77,5 @@ if __name__ == "__main__":
     grammar = Grammar(GRAMMAR_PATH, TERMINALS, NON_TERMINALS)
     grammar.create_lexical_grammar()
     grammar.generate_syntactic_grammar()
-    earley = Earley("A infalibilidade papal é um dogma", grammar)
+    earley = Earley("Os autores do acórdão revelam um louvável desejo", grammar)
     earley.parse()
